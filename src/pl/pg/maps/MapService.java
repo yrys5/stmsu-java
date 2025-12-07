@@ -11,11 +11,9 @@ import javax.imageio.ImageIO;
 @WebService(
         serviceName = "MapService",
         portName = "MapServicePort",
-        targetNamespace = "http://maps.pg.pl/"   // NAMESPACE do ksoap2
+        targetNamespace = "http://maps.pg.pl/"
 )
 public class MapService {
-
-    // ---- KONFIGURACJA GEO – PODMIENISZ PÓŹNIEJ NA SWOJE WSPÓŁRZĘDNE ----
     private static final double LAT_MIN = 54.35;   // dół mapy
     private static final double LAT_MAX = 54.45;   // góra mapy
     private static final double LON_MIN = 18.55;   // lewa strona
@@ -27,7 +25,6 @@ public class MapService {
 
     static {
         try {
-            // SZUKA /mapa.png NA CLASSPATH
             InputStream is = MapService.class.getResourceAsStream("/mapa.png");
             if (is == null) {
                 throw new RuntimeException("Nie znaleziono pliku mapa.png na classpath!");
@@ -42,7 +39,6 @@ public class MapService {
         }
     }
 
-    // 1) METODA – KOORDYNATY PIKSELI
     @WebMethod
     public String getMapFragmentByPixels(int x1, int y1, int x2, int y2) throws Exception {
         int xMin = Math.min(x1, x2);
@@ -66,7 +62,6 @@ public class MapService {
         return encodeToBase64Png(cropped);
     }
 
-    // 2) METODA – KOORDYNATY GEO (ocena 5)
     @WebMethod
     public String getMapFragmentByGeo(double lat1, double lon1, double lat2, double lon2) throws Exception {
         int x1 = lonToPixelX(lon1);
@@ -77,7 +72,6 @@ public class MapService {
         return getMapFragmentByPixels(x1, y1, x2, y2);
     }
 
-    // ----- POMOCNICZE: GEO → PIXEL -----
 
     private int lonToPixelX(double lon) {
         double ratio = (lon - LON_MIN) / (LON_MAX - LON_MIN);
