@@ -41,6 +41,9 @@ public class MapService {
 
     @WebMethod
     public String getMapFragmentByPixels(int x1, int y1, int x2, int y2) throws Exception {
+        System.out.println("getMapFragmentByPixels called with: "
+                + "x1=" + x1 + ", y1=" + y1 + ", x2=" + x2 + ", y2=" + y2);
+
         int xMin = Math.min(x1, x2);
         int yMin = Math.min(y1, y2);
         int xMax = Math.max(x1, x2);
@@ -53,6 +56,12 @@ public class MapService {
 
         int width = xMax - xMin + 1;
         int height = yMax - yMin + 1;
+
+        System.out.println("After clamp: "
+                + "xMin=" + xMin + ", yMin=" + yMin
+                + ", xMax=" + xMax + ", yMax=" + yMax
+                + ", width=" + width + ", height=" + height
+                + ", map=" + mapWidth + "x" + mapHeight);
 
         if (width <= 0 || height <= 0) {
             throw new IllegalArgumentException("Niepoprawny prostokąt: width=" + width + ", height=" + height);
